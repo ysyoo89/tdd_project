@@ -13,6 +13,8 @@ public class ProfileTest {
     private BooleanQuestion questionIsThereRelocation;
     private Answer answerIsThereIsRelocation;
     private Answer answerThereIsNotRelocation;
+    private Answer answerThereIsRelocation;
+    private Answer answerDoesNotReimburseTuition;
 
     @Before
     public void createProfile() {
@@ -55,4 +57,14 @@ public class ProfileTest {
         assertFalse(result);
     }
 
+    @Test
+    public void matchesWhenContainsMultipleAnswers() {
+        profile.add(answerThereIsNotRelocation);
+        profile.add(answerDoesNotReimburseTuition);
+        Criterion criterion = new Criterion(answerThereIsRelocation, Weight.Important);
+
+        boolean result = profile.matches(criterion);
+
+        assertTrue(result);
+    }
 }
