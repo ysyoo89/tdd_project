@@ -29,4 +29,8 @@ public class Profile {
     public void add(Answer answer) {
         answers.put(answer.getQuestionText(), answer);
     }
+
+    public ProfileMatch match(Criteria criteria) {
+        return new ProfileMatch();
+    }
 }

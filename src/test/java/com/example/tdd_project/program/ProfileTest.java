@@ -5,8 +5,8 @@ package com.example.tdd_project.program;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ProfileTest {
     private Profile profile;
@@ -103,5 +103,12 @@ public class ProfileTest {
         assertTrue(profile.matches(criterion));
     }
 
+    @Test
+    public void scoreIsZeroWhenThereAreNoMatches() {
+        criteria.add(new Criterion(answerThereIsRelocation, Weight.Important));
 
+        ProfileMatch match = profile.match(criteria);
+
+        assertThat(match.getScore()).isEqualTo(0);
+    }
 }
