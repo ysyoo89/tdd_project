@@ -16,6 +16,7 @@ public class ProfileTest {
     private Answer answerThereIsRelocation;
     private Answer answerDoesNotReimburseTuition;
     private Answer answerReimbursesTuition;
+    private Answer answerThereRelocation;
     private Criteria criteria;
 
     @Before
@@ -91,5 +92,15 @@ public class ProfileTest {
         criteria.add(new Criterion(answerReimbursesTuition, Weight.Important));
 
         assertTrue(profile.matches(criteria));
+    }
+
+    @Test
+    public void doesNotMatchWhenAnyMustMeetCriteriaNotMet() {
+        profile.add(answerThereRelocation);
+        profile.add(answerDoesNotReimburseTuition);
+        criteria.add(new Criterion(answerThereRelocation, Weight.Important));
+        criteria.add(new Criterion(answerReimbursesTuition, Weight.MustMatch));
+
+        assertFalse(profile.matches(criteria));
     }
 }

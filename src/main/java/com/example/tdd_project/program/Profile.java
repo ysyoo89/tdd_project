@@ -15,12 +15,15 @@ public class Profile {
     }
 
     public boolean matches(Criteria criteria) {
+        boolean matches = false;
         for (Criterion criterion: criteria) {
             if (matches(criterion)) {
                 return true;
+            } else if (criterion.getWeight() == Weight.MustMatch) {
+                return false;
             }
         }
-        return false;
+        return matches;
     }
 
     public void add(Answer answer) {
