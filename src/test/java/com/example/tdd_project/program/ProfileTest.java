@@ -2,18 +2,31 @@ package com.example.tdd_project.program;
 
 
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ProfileTest {
+    private Profile profile;
+    private BooleanQuestion questionIsThereRelocation;
+    private Answer answerIsThereIsRelocation;
+
+    @Before
+    public void createProfile() {
+        profile = new Profile();
+    }
+
+    @Before
+    public void createQuestionAndAnswer() {
+        questionIsThereRelocation = new BooleanQuestion(1, "Relocation package?");
+        answerIsThereIsRelocation = new Answer(questionIsThereRelocation, Bool.TRUE);
+    }
 
     @Test
     public void matchesNothingWhenProfileEmpty() {
-        Profile profile = new Profile();
-        Question question = new BooleanQuestion(1, "Relocation package?");
-        Criterion criterion = new Criterion(new Answer(question, Bool.TRUE), Weight.DontCare);
+        Criterion criterion = new Criterion(answerIsThereIsRelocation, Weight.DontCare);
 
         boolean result = profile.matches(criterion);
 
@@ -22,11 +35,8 @@ public class ProfileTest {
 
     @Test
     public void matchesWhenProfileContainsMatchingAnswer() {
-        Profile profile = new Profile();
-        Question question = new BooleanQuestion(1, "Reloaction package?");
-        Answer answer = new Answer(question, Bool.TRUE);
-        profile.add(answer);
-        Criterion criterion = new Criterion(answer, Weight.Important);
+        profile.add(answerIsThereIsRelocation);
+        Criterion criterion = new Criterion(answerIsThereIsRelocation, Weight.Important);
 
         boolean result = profile.matches(criterion);
 
