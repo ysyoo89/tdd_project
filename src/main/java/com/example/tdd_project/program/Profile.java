@@ -14,6 +14,15 @@ public class Profile {
         return answer.match(criterion.getAnswer());
     }
 
+    public boolean matches(Criteria criteria) {
+        for (Criterion criterion: criteria) {
+            if (matches(criterion)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void add(Answer answer) {
         answers.put(answer.getQuestionText(), answer);
     }

@@ -15,6 +15,13 @@ public class ProfileTest {
     private Answer answerThereIsNotRelocation;
     private Answer answerThereIsRelocation;
     private Answer answerDoesNotReimburseTuition;
+    private Answer answerReimbursesTuition;
+    private Criteria criteria;
+
+    @Before
+    public void createCriteria() {
+        criteria = new Criteria();
+    }
 
     @Before
     public void createProfile() {
@@ -64,6 +71,28 @@ public class ProfileTest {
         Criterion criterion = new Criterion(answerThereIsRelocation, Weight.Important);
 
         boolean result = profile.matches(criterion);
+
+        assertTrue(result);
+    }
+
+    @Test
+    public void doesNotMatchWhenNoneOfMultipleCriteriaMatch() {
+        profile.add(answerDoesNotReimburseTuition);
+        criteria.add(new Criterion(answerThereIsRelocation, Weight.Important));
+        criteria.add(new Criterion(answerReimbursesTuition, Weight.Important));
+
+        boolean result = profile.matches(criteria);
+
+        assertFalse(result);
+    }
+
+    @Test
+    public void matchesWhenAnyOfMultipleCriteriaMatch() {
+        profile.add(answerDoesNotReimburseTuition);
+        criteria.add(new Criterion(answerThereIsRelocation, Weight.Important));
+        criteria.add(new Criterion(answerReimbursesTuition, Weight.Important));
+
+        boolean result = profile.matches(criteria);
 
         assertTrue(result);
     }
